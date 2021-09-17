@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Label, Button, Input } from './ContactForm.styled';
 
-export default function ContactForm() {
+export default function ContactForm({ propSubmit }) {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
@@ -21,26 +21,17 @@ export default function ContactForm() {
       default:
         return;
     }
-    // const { name, value } = event.currentTarget;
-
-    // this.setState({
-    //   [name]: value,
-    // });
   };
 
-  // const handleSubmit = event => {
-  //   const resetForm = () => {
-  //   this.setState({
-  //     name: '',
-  //     number: '',
-  //   });
-  // };
-  //   event.preventDefault();
-  //   this.props.propSubmit(this.state);
-  //   resetForm();
-  // };
   const handleSubmit = event => {
+    const resetForm = () => {
+      setName('');
+      setNumber('');
+    };
+
     event.preventDefault();
+    propSubmit({ name, number });
+    resetForm();
   };
 
   return (
