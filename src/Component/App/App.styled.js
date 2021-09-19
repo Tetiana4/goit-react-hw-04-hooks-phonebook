@@ -11,6 +11,7 @@ export const Container = styled.div`
   border: 3px solid #ce6a6a;
   background-color: #ec9f9f;
 `;
+
 export const Title = styled.h1`
   margin: 0 0 20px;
 `;
