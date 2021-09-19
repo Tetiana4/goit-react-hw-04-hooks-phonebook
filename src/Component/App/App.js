@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import ContactForm from '../ContactForm/ContactForm';
 import Filter from '../Filter/Filter';
@@ -29,21 +29,15 @@ export default function App() {
       name: data.name,
       number: data.number,
     };
-
     setContacts(s => [...contacts, contact]);
   };
 
-  const changeFilter = event => {
-    setFilter(event.currentTarget.value);
-  };
-
-  const getVisibleList = () => {
+  const getVisibleList = useMemo(() => {
     const normalisedFilter = filter.toLowerCase();
-
     return contacts.filter(contact =>
       contact.name.toLowerCase().includes(normalisedFilter),
     );
-  };
+  }, [filter, contacts]);
 
   const deleteContacts = contactId => {
     setContacts(s => s.filter(contact => contact.id !== contactId));
@@ -55,8 +49,11 @@ export default function App() {
       <ContactForm propSubmit={addContact} />
       <h2>Contacts</h2>
       <p>Find contacts by name</p>
-      <Filter value={filter} onChange={changeFilter} />
-      <ContactList contacts={getVisibleList()} onDelete={deleteContacts} />
+      <Filter
+        value={filter}
+        onChange={event => setFilter(event.currentTarget.value)}
+      />
+      <ContactList contacts={getVisibleList} onDelete={deleteContacts} />
     </Container>
   );
 }
