@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { List, ListItem, Button } from './ContactList.styled';
 
-function ContactList({ contacts, onDelete }) {
+const ContactList = ({ contacts, onDelete }) => {
   return (
     <List>
       {contacts.map(({ id, name, number }) => (
@@ -13,10 +13,10 @@ function ContactList({ contacts, onDelete }) {
       ))}
     </List>
   );
-}
+};
 export default ContactList;
 
 ContactList.propeTypes = {
-  contact: PropTypes.array,
+  contacts: PropTypes.array,
   onDelete: PropTypes.func,
 };

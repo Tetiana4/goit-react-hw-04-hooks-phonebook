@@ -1,9 +1,10 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import ContactForm from '../ContactForm/ContactForm';
 import Filter from '../Filter/Filter';
 import ContactList from '../ContactList/ContactList';
 import { Container, Title } from './App.styled';
+import { useCallback } from 'react';
 
 export default function App() {
   const contactsArr = [
@@ -32,7 +33,7 @@ export default function App() {
     setContacts(s => [...contacts, contact]);
   };
 
-  const getVisibleList = useMemo(() => {
+  const getVisibleList = useCallback(() => {
     const normalisedFilter = filter.toLowerCase();
     return contacts.filter(contact =>
       contact.name.toLowerCase().includes(normalisedFilter),
@@ -49,11 +50,8 @@ export default function App() {
       <ContactForm propSubmit={addContact} />
       <h2>Contacts</h2>
       <p>Find contacts by name</p>
-      <Filter
-        value={filter}
-        onChange={event => setFilter(event.currentTarget.value)}
-      />
-      <ContactList contacts={getVisibleList} onDelete={deleteContacts} />
+      <Filter value={filter} onChange={setFilter} />
+      <ContactList contacts={getVisibleList()} onDelete={deleteContacts} />
     </Container>
   );
 }
